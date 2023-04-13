@@ -37,21 +37,28 @@ public class User {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "Email should be valid")
+    @Column(name = "email", unique = true)
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "First name cannot be empty")
+    @Column(name = "firstName")
     private String firstName;
 
-    @NotBlank
+    @NotBlank(message = "Last name cannot be empty")
+    @Column(name = "lastName")
     private String lastName;
 
-    @NotBlank
+    @NotBlank(message = "Password cannot be empty")
+    @Size(min = 3, max = 50, message = "Password must be between 3 and 50 characters")
     @JsonIgnore
+    @Column(name = "password")
     private String password;
 
     @CreationTimestamp
     @Temporal(TIMESTAMP)
+    @Column(name = "createdAt")
     private Date createdAt;
 
     public User(final Long id) {
