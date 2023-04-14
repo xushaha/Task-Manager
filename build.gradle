@@ -63,8 +63,8 @@ dependencies {
 	)
 
 	testImplementation(
-			//'org.springframework.boot:spring-boot-starter-security:3.0.1',
-			//'org.springframework.security:spring-security-test:5.5.1',
+			'org.springframework.boot:spring-boot-starter-security:3.0.1',
+			'org.springframework.security:spring-security-test:5.5.1',
 			'org.springframework.boot:spring-boot-starter-test',
 			'com.tobedevoured.modelcitizen:spring:0.8.3',
 			'com.github.database-rider:rider-junit5:1.32.0',
