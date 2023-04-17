@@ -17,11 +17,11 @@
                 <constraints nullable="false" primaryKey="true" primaryKeyName="usersPK"/>
             </column>
             <!-- Создаём остальные столбцы -->
-            <column name="first_name" type="varchar(255)"/>
-            <column name="last_name" type="varchar(255)"/>
+            <column name="firstname" type="varchar(255)"/>
+            <column name="lastname" type="varchar(255)"/>
             <column name="email" type="varchar(255)"/>
             <column name="password" type="varchar(255)"/>
-            <column name="created_at" type="TIMESTAMP"/>
+            <column name="createdAt" type="TIMESTAMP"/>
         </createTable>
     </changeSet>
     <!-- END -->

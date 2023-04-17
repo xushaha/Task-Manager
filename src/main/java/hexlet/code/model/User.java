@@ -51,7 +51,7 @@ public class User {
     private String lastName;
 
     @NotBlank(message = "Password cannot be empty")
-    @Size(min = 3, max = 50, message = "Password must be between 3 and 50 characters")
+    @Size(min = 3, max = 500, message = "Password must be between 3 and 500 characters")
     @JsonIgnore
     @Column(name = "password")
     private String password;
