@@ -25,3 +25,4 @@ public class SpringConfigForIT {
         return new RestTemplateBuilder().build();
     }
 }
+
