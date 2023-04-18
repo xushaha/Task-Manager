@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 public class UserDto {
 
     @Email(message = "Email should be valid")
@@ -28,4 +28,10 @@ public class UserDto {
     private String password;
 
 
+    public UserDto(String email, String firstName, String lastName, String password) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+    }
 }
