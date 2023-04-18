@@ -17,9 +17,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-
 import java.util.Map;
 
 import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
@@ -28,8 +25,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Component
 public class TestUtils {
-    public static final String TEST_USERNAME = "email@email.com";
-    public static final String TEST_USERNAME_2 = "email2@email.com";
+    public static final String TEST_EMAIL = "email@email.com";
+    public static final String TEST_EMAIL_2 = "email2@email.com";
     public static final String ID = "/{id}";
     public static final String BASE_URL = "/api";
     public static final String BASE_USER_URL = BASE_URL + USER_CONTROLLER_PATH;
@@ -40,12 +37,13 @@ public class TestUtils {
     private UserRepository userRepository;
         @Autowired
     private JWTHelper jwtHelper;
+    private static final ObjectMapper MAPPER = new ObjectMapper().findAndRegisterModules();
 
     private final UserDto testRegistrationDto = new UserDto(
-            TEST_USERNAME,
-            "fname",
-            "lname",
-            "pwd"
+            TEST_EMAIL,
+            "first name",
+            "last name",
+            "password"
     );
 
     public UserDto getTestRegistrationDto() {
@@ -86,7 +84,7 @@ public class TestUtils {
     }
 
 
-    private static final ObjectMapper MAPPER = new ObjectMapper().findAndRegisterModules();
+
 
     public static String asJson(final Object object) throws JsonProcessingException {
         return MAPPER.writeValueAsString(object);

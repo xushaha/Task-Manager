@@ -49,7 +49,6 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                 .map(this::buildAuthToken)
                 .orElseThrow(() -> new AccessDeniedException("Unauthorized"));
 
-
         SecurityContextHolder.getContext().setAuthentication(authToken);
         filterChain.doFilter(request, response);
     }
