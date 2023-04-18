@@ -11,7 +11,6 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
-
     private final String baseApiPath;
 
     public WebConfiguration(@Value("${base-url}") String baseApiPath) {
@@ -23,11 +22,9 @@ public class WebConfiguration implements WebMvcConfigurer {
         registry
                 .addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/static/");
-
         registry
                 .addResourceHandler("/*.*")
                 .addResourceLocations("classpath:/static/");
-
         registry
                 .addResourceHandler("/", "/**")
                 .setCachePeriod(0)
@@ -36,7 +33,8 @@ public class WebConfiguration implements WebMvcConfigurer {
                 .addResolver(new PathResourceResolver() {
                     @Override
                     protected Resource getResource(String resourcePath, Resource location) throws IOException {
-                        if (resourcePath.startsWith(baseApiPath) || resourcePath.startsWith(baseApiPath.substring(1))) {
+                        if (resourcePath.startsWith(baseApiPath) || resourcePath.startsWith(
+                                baseApiPath.substring(1))) {
                             return null;
                         }
 

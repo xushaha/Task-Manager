@@ -2,6 +2,7 @@ package hexlet.code.filter;
 
 import hexlet.code.component.JWTHelper;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.util.Optional;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -12,7 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import static hexlet.code.config.SecurityConfig.DEFAULT_AUTHORITIES;
+import static hexlet.code.config.security.SecurityConfig.DEFAULT_AUTHORITIES;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY;
 
@@ -46,7 +47,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                 .map(claims -> claims.get(SPRING_SECURITY_FORM_USERNAME_KEY))
                 .map(Object::toString)
                 .map(this::buildAuthToken)
-                .orElseThrow();
+                .orElseThrow(() -> new AccessDeniedException("Unauthorized"));
 
 
         SecurityContextHolder.getContext().setAuthentication(authToken);

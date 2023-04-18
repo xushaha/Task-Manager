@@ -24,7 +24,7 @@ public class UserDto {
     private String lastName;
 
     @NotBlank(message = "Password cannot be empty")
-    @Size(min = 3, max = 500, message = "Password must be between 3 and 50 characters")
+    @Size(min = 3, max = 255, message = "Password must be between 3 and 255 characters")
     private String password;
 
 

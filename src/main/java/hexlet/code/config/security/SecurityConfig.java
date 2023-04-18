@@ -1,4 +1,4 @@
-package hexlet.code.config;
+package hexlet.code.config.security;
 
 import hexlet.code.component.JWTHelper;
 import hexlet.code.filter.JWTAuthenticationFilter;
@@ -30,19 +30,14 @@ import static org.springframework.http.HttpMethod.POST;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    public static final String LOGIN = "/login";
 
+    public static final String LOGIN = "/login";
     public static final List<GrantedAuthority> DEFAULT_AUTHORITIES
             = List.of(new SimpleGrantedAuthority("USER"));
-
     private final RequestMatcher publicUrls;
-
     private final RequestMatcher loginRequest;
-
     private final UserDetailsService userDetailsService;
-
     private final PasswordEncoder passwordEncoder;
-
     private final JWTHelper jwtHelper;
 
 
@@ -89,7 +84,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().disable()
                 .formLogin().disable()
                 .httpBasic().disable()
-                .logout().disable()
-                .headers().frameOptions().disable();
+                .logout().disable();
     }
 }

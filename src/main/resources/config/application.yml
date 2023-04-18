@@ -6,20 +6,15 @@ base-url: /api
 spring:
   application:
     name: taskManager
-  active:
-    profiles: dev
 
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/changelog-master.xml
-
 
   mvc:
     hiddenmethod:
       filter:
         enabled: true
 
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
+spring.jpa.open-in-view: false
 
