@@ -43,11 +43,11 @@ public class User {
     private String email;
 
     @NotBlank(message = "First name cannot be empty")
-    @Column(name = "first_Name")
+    @Column(name = "first_name")
     private String firstName;
 
     @NotBlank(message = "Last name cannot be empty")
-    @Column(name = "last_Name")
+    @Column(name = "last_name")
     private String lastName;
 
     @NotBlank(message = "Password cannot be empty")
@@ -58,7 +58,7 @@ public class User {
 
     @CreationTimestamp
     @Temporal(TIMESTAMP)
-    @Column(name = "created_At")
+    @Column(name = "created_at")
     private Date createdAt;
 
     public User(final Long id) {
