@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class UserDto {
 
-    @Email(message = "Email should be valid")
+    @Email(message = "Invalid email")
     @NotBlank(message = "Email cannot be empty")
     private String email;
 

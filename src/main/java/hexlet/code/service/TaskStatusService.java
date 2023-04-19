@@ -1,3 +1,4 @@
+/*
 package hexlet.code.service;
 
 import hexlet.code.dto.TaskStatusDto;
@@ -23,3 +24,4 @@ public interface TaskStatusService {
 
 
 
+*/

@@ -61,8 +61,5 @@ public class User {
     @Column(name = "created_at")
     private Date createdAt;
 
-    public User(final Long id) {
-        this.id = id;
-    }
 
 }

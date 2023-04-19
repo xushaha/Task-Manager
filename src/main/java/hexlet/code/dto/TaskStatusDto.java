@@ -1,3 +1,4 @@
+/*
 package hexlet.code.dto;
 
 import lombok.AllArgsConstructor;
@@ -18,3 +19,4 @@ public class TaskStatusDto {
     private String name;
 
 }
+*/
