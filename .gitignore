@@ -42,3 +42,7 @@ out/
 node
 
 .env
+
+node
+frontend/node_modules
+fronetend/build

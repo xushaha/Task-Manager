@@ -131,7 +131,7 @@ test {
 jacocoTestReport {
 	dependsOn test
 }
-/*
+
 
 //frontend
 frontend {
@@ -161,4 +161,4 @@ installFrontend {
 	configure configFrontendTasks
 }
 
-processResources.dependsOn assembleFrontend*/
+processResources.dependsOn assembleFrontend
