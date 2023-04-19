@@ -2,10 +2,7 @@ package hexlet.code.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Column;
@@ -26,8 +23,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor

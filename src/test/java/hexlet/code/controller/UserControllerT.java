@@ -50,7 +50,6 @@ public class UserControllerT {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private TestUtils utils;
 
@@ -201,12 +200,5 @@ public class UserControllerT {
         assertEquals(2, userRepository.count());
 
     }
-
-
-
-
-
-
-
 
 }
