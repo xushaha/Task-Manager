@@ -46,7 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles(TEST_PROFILE)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = SpringConfigForIT.class)
-public class UserControllerT {
+public class UserControllerIT {
 
     @Autowired
     private UserRepository userRepository;
