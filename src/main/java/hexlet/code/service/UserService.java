@@ -16,4 +16,6 @@ public interface UserService {
     User getCurrentUser();
 
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+
+    User getUserById(Long id);
 }

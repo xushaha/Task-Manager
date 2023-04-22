@@ -29,3 +29,7 @@ logging:
     # org.hibernate.type.descriptor.sql: TRACE
     # org.springframework.security: TRACE
     # io.hexlet.typoreporter: DEBUG
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

@@ -18,3 +18,6 @@ spring:
 
 spring.jpa.open-in-view: false
 
+springdoc:
+  api-docs:
+    path: /swagger.html

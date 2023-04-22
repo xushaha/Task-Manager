@@ -15,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 @ComponentScan(basePackages = "hexlet.code")
 @PropertySource(value = "classpath:/config/application.yml")
 public class SpringConfigForIT {
-
     public static final String TEST_PROFILE = "test";
 
     @Bean

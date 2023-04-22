@@ -9,12 +9,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
-/*@SecurityScheme(
+@SecurityScheme(
         name = "JWT",
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
         scheme = "bearer"
-)*/
+)
 @SpringBootApplication
 public class AppApplication {
 

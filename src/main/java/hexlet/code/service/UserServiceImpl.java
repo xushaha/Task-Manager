@@ -66,6 +66,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Not found user with 'username': " + username));
     }
 
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id).get();
+    }
+
     private UserDetails buildSpringUser(final User user) {
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),

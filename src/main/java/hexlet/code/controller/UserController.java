@@ -47,51 +47,7 @@ public class UserController {
                 @userRepository.findById(#id).get().getEmail() == authentication.getName()
             """;
 
-    // GET /api/users/{id}
-    @Operation(summary = "Get user by id")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User was found"),
-            @ApiResponse(responseCode = "404", description = "User with the id does not exist")
-    })
-    @GetMapping(ID)
-    public User getUserById(@PathVariable final Long id) {
-        return userRepository.findById(id).get();
-    }
-
-    // PUT /api/users/{id}
-    @Operation(summary = "Update user by id")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User updated"),
-            @ApiResponse(responseCode = "404", description = "User with the id not found")
-    })
-    @PutMapping(ID)
-    @PreAuthorize(ONLY_OWNER_BY_ID)
-    public User updateUser(@PathVariable("id") final long id,
-                           @RequestBody @Valid final UserDto dto) {
-        return userService.updateUser(id, dto);
-    }
-
-    // DELETE /api/users/{id}
-    @Operation(summary = "Delete a user by id")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User deleted"),
-            @ApiResponse(responseCode = "404", description = "User with that id is not found")})
-    @DeleteMapping(ID)
-    @PreAuthorize(ONLY_OWNER_BY_ID)
-    public void deleteUser(@PathVariable("id") final long id) {
-        userRepository.deleteById(id);
-    }
-
-    // GET /api/users
-    @Operation(summary = "Get list of users")
-    @ApiResponses(@ApiResponse(responseCode = "200", description = "List of users was successfully loaded", content =
-    @Content(schema = @Schema(implementation = User.class))))
-    @GetMapping
-    public List<User> getAll() {
-        return userRepository.findAll().stream().toList();
-    }
-
-    // POST /api/users
+    // POST /api/users создание пользователя
     @Operation(summary = "Create new user")
     @ApiResponse(responseCode = "201", description = "User created")
     @PostMapping
@@ -99,4 +55,49 @@ public class UserController {
     public User createUser(@RequestBody @Valid final UserDto dto) {
         return userService.createNewUser(dto);
     }
+
+    // GET /api/users получение списка пользователей
+    @Operation(summary = "Get list of users")
+    @ApiResponses(@ApiResponse(responseCode = "200", description = "List of users was successfully loaded", content =
+        @Content(schema = @Schema(implementation = User.class))))
+    @GetMapping
+    public List<User> getAll() {
+        return userRepository.findAll().stream().toList();
+    }
+
+    // GET /api/users/{id} получение пользователя по идентификатору
+    @Operation(summary = "Get user by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User was found"),
+        @ApiResponse(responseCode = "404", description = "User with the id does not exist")
+    })
+    @GetMapping(ID)
+    public User getUserById(@PathVariable final Long id) {
+        return userRepository.findById(id).get();
+    }
+
+    // PUT /api/users/{id} обновление пользователя
+    @Operation(summary = "Update user by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User updated"),
+        @ApiResponse(responseCode = "404", description = "User with the id not found")
+    })
+    @PutMapping(ID)
+    @PreAuthorize(ONLY_OWNER_BY_ID)
+    public User updateUser(@PathVariable("id") final Long id,
+                           @RequestBody @Valid final UserDto dto) {
+        return userService.updateUser(id, dto);
+    }
+
+    // DELETE /api/users/{id} удаление пользователя
+    @Operation(summary = "Delete a user by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User deleted"),
+        @ApiResponse(responseCode = "404", description = "User with that id is not found")})
+    @DeleteMapping(ID)
+    @PreAuthorize(ONLY_OWNER_BY_ID)
+    public void deleteUser(@PathVariable("id") final long id) {
+        userRepository.deleteById(id);
+    }
+
 }

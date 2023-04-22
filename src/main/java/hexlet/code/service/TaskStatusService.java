@@ -1,10 +1,10 @@
-/*
 package hexlet.code.service;
 
 import hexlet.code.dto.TaskStatusDto;
 import hexlet.code.model.TaskStatus;
 
 import java.util.List;
+
 
 public interface TaskStatusService {
 
@@ -19,9 +19,3 @@ public interface TaskStatusService {
     void deleteTaskStatusById(Long id);
 
 }
-
-
-
-
-
-*/
