@@ -2,7 +2,6 @@ package hexlet.code.controller;
 
 import hexlet.code.dto.UserDto;
 import hexlet.code.model.User;
-import hexlet.code.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,7 +9,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import hexlet.code.service.UserService;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,9 +34,6 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("${base-url}" + USER_CONTROLLER_PATH)
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
-
     public static final String USER_CONTROLLER_PATH = "/users";
     public static final String ID = "/{id}";
     private final UserService userService;
@@ -52,8 +47,8 @@ public class UserController {
     @ApiResponse(responseCode = "201", description = "User created")
     @PostMapping
     @ResponseStatus(CREATED)
-    public User createUser(@RequestBody @Valid final UserDto dto) {
-        return userService.createNewUser(dto);
+    public User createUser(@RequestBody @Valid final UserDto userDto) {
+        return userService.createNewUser(userDto);
     }
 
     // GET /api/users получение списка пользователей
@@ -62,18 +57,18 @@ public class UserController {
         @Content(schema = @Schema(implementation = User.class))))
     @GetMapping
     public List<User> getAll() {
-        return userRepository.findAll().stream().toList();
+        return userService.getAllUsers();
     }
 
     // GET /api/users/{id} получение пользователя по идентификатору
     @Operation(summary = "Get user by id")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "User was found"),
-        @ApiResponse(responseCode = "404", description = "User with the id does not exist")
+        @ApiResponse(responseCode = "200", description = "The user is found"),
+        @ApiResponse(responseCode = "404", description = "The user with this id was not found")
     })
     @GetMapping(ID)
-    public User getUserById(@PathVariable final Long id) {
-        return userRepository.findById(id).get();
+    public User getUserById(@PathVariable("id") final Long id) {
+        return userService.getUserById(id);
     }
 
     // PUT /api/users/{id} обновление пользователя
@@ -85,8 +80,8 @@ public class UserController {
     @PutMapping(ID)
     @PreAuthorize(ONLY_OWNER_BY_ID)
     public User updateUser(@PathVariable("id") final Long id,
-                           @RequestBody @Valid final UserDto dto) {
-        return userService.updateUser(id, dto);
+                           @RequestBody @Valid final UserDto userDto) {
+        return userService.updateUser(id, userDto);
     }
 
     // DELETE /api/users/{id} удаление пользователя
@@ -96,8 +91,7 @@ public class UserController {
         @ApiResponse(responseCode = "404", description = "User with that id is not found")})
     @DeleteMapping(ID)
     @PreAuthorize(ONLY_OWNER_BY_ID)
-    public void deleteUser(@PathVariable("id") final long id) {
-        userRepository.deleteById(id);
+    public void deleteUser(@PathVariable("id") final Long id) {
+        userService.deleteUser(id);
     }
-
 }
