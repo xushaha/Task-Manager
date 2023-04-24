@@ -12,11 +12,8 @@ import static hexlet.code.config.security.SecurityConfig.LOGIN;
 import static hexlet.code.controller.UserController.ID;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import static hexlet.code.utils.TestUtils.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -40,9 +37,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 
 @AutoConfigureMockMvc
 @ActiveProfiles(TEST_PROFILE)
@@ -74,13 +68,13 @@ public class UserControllerIT {
         final User expectedUser = userRepository.findAll().get(0);
 
         final var response = utils.perform(
-                        get(BASE_USER_URL + ID, expectedUser.getId()),
+                        get(TestUtils.BASE_USER_URL + ID, expectedUser.getId()),
                         expectedUser.getEmail()
                 ).andExpect(status().isOk())
                 .andReturn()
                 .getResponse();
 
-        final User user = fromJson(response.getContentAsString(), new TypeReference<>() {
+        final User user = TestUtils.fromJson(response.getContentAsString(), new TypeReference<>() {
         });
 
         assertEquals(expectedUser.getId(), user.getId());
@@ -94,17 +88,17 @@ public class UserControllerIT {
     public void getAllUsers() throws Exception {
         utils.regDefaultUser();
         utils.regUser(new UserDto(
-                TEST_EMAIL_2,
+                TestUtils.TEST_EMAIL_2,
                 "first name",
                 "last name",
                 "password"
         ));
-        final var response = utils.perform(get(BASE_USER_URL))
+        final var response = utils.perform(get(TestUtils.BASE_USER_URL))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse();
 
-        final List<User> users = fromJson(response.getContentAsString(), new TypeReference<>() {
+        final List<User> users = TestUtils.fromJson(response.getContentAsString(), new TypeReference<>() {
         });
 
         assertThat(users).hasSize(2);
@@ -127,20 +121,20 @@ public class UserControllerIT {
     public void updateUser() throws Exception {
         utils.regDefaultUser();
 
-        final Long userId = userRepository.findByEmail(TEST_EMAIL).get().getId();
+        final Long userId = userRepository.findByEmail(TestUtils.TEST_EMAIL).get().getId();
 
-        final var userDto = new UserDto(TEST_EMAIL_2, "new first name",
+        final var userDto = new UserDto(TestUtils.TEST_EMAIL_2, "new first name",
                 "new last name", "new password");
 
-        final var updateRequest = put(BASE_USER_URL + ID, userId)
-                .content(asJson(userDto))
+        final var updateRequest = put(TestUtils.BASE_USER_URL + ID, userId)
+                .content(TestUtils.asJson(userDto))
                 .contentType(APPLICATION_JSON);
 
-        utils.perform(updateRequest, TEST_EMAIL).andExpect(status().isOk());
+        utils.perform(updateRequest, TestUtils.TEST_EMAIL).andExpect(status().isOk());
 
         assertTrue(userRepository.existsById(userId));
-        assertNull(userRepository.findByEmail(TEST_EMAIL).orElse(null));
-        assertNotNull(userRepository.findByEmail(TEST_EMAIL_2).orElse(null));
+        assertNull(userRepository.findByEmail(TestUtils.TEST_EMAIL).orElse(null));
+        assertNotNull(userRepository.findByEmail(TestUtils.TEST_EMAIL_2).orElse(null));
     }
 
 
@@ -158,8 +152,8 @@ public class UserControllerIT {
                 utils.getTestRegistrationDto().getEmail(),
                 utils.getTestRegistrationDto().getPassword()
         );
-        final var loginRequest = post(BASE_URL + LOGIN)
-                .content(asJson(loginDto))
+        final var loginRequest = post(TestUtils.BASE_URL + LOGIN)
+                .content(TestUtils.asJson(loginDto))
                 .contentType(APPLICATION_JSON);
         utils.perform(loginRequest).andExpect(status().isOk());
     }
@@ -171,8 +165,8 @@ public class UserControllerIT {
                 utils.getTestRegistrationDto().getEmail(),
                 utils.getTestRegistrationDto().getPassword()
         );
-        final var loginRequest = post(BASE_URL + LOGIN)
-                .content(asJson(loginDto))
+        final var loginRequest = post(TestUtils.BASE_URL + LOGIN)
+                .content(TestUtils.asJson(loginDto))
                 .contentType(APPLICATION_JSON);
         utils.perform(loginRequest).andExpect(status().isUnauthorized());
     }
@@ -182,8 +176,8 @@ public class UserControllerIT {
     public void deleteUser() throws Exception {
 
         utils.regDefaultUser();
-        final Long userId = userRepository.findByEmail(TEST_EMAIL).get().getId();
-        utils.perform(delete(BASE_USER_URL + ID, userId), TEST_EMAIL)
+        final Long userId = userRepository.findByEmail(TestUtils.TEST_EMAIL).get().getId();
+        utils.perform(delete(TestUtils.BASE_USER_URL + ID, userId), TestUtils.TEST_EMAIL)
                 .andExpect(status().isOk());
         assertEquals(0, userRepository.count());
 
@@ -194,15 +188,15 @@ public class UserControllerIT {
 
         utils.regDefaultUser();
         utils.regUser(new UserDto(
-                TEST_EMAIL_2,
+                TestUtils.TEST_EMAIL_2,
                 "first name",
                 "last name",
                 "password"
         ));
 
-        final Long userId = userRepository.findByEmail(TEST_EMAIL).get().getId();
+        final Long userId = userRepository.findByEmail(TestUtils.TEST_EMAIL).get().getId();
 
-        utils.perform(delete(BASE_USER_URL + ID, userId), TEST_EMAIL_2)
+        utils.perform(delete(TestUtils.BASE_USER_URL + ID, userId), TestUtils.TEST_EMAIL_2)
                 .andExpect(status().isForbidden());
 
         assertEquals(2, userRepository.count());

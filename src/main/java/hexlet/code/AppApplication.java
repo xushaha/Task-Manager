@@ -31,7 +31,7 @@ public class AppApplication {
         return new BCryptPasswordEncoder();
     }
 
-    public static void rollbarStart() throws Exception {
+/*    public static void rollbarStart() throws Exception {
         Rollbar rollbar = Rollbar.init(withAccessToken("57e709e076a343619b4c631ddbc47ae5")
                 .environment("qa")
                 .codeVersion("1.0.0")
@@ -39,6 +39,8 @@ public class AppApplication {
 
         rollbar.log("Hello, Rollbar");
         rollbar.close(true);
-    }
+    }*/
 
 }
+
+
