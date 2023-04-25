@@ -12,9 +12,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -23,6 +22,7 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final UserService userService;
+    private final UserService labelService;
     private final TaskStatusService taskStatusService;
     private final LabelRepository labelRepository;
 
@@ -32,6 +32,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.save(newTask);
     }
 
+
     public Iterable<Task> getAllTasks(Predicate predicate) {
         return taskRepository.findAll(predicate);
     }
@@ -39,12 +40,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task getTaskById(Long id) {
         return taskRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("The task with this id does not exist"));
+                .orElseThrow(() -> new NoSuchElementException("The task with this ID does not exist"));
     }
 
     @Override
     public Task updateTask(Long id, TaskDto taskDto) {
-        final Task task = taskRepository.findById(id).get();
+        final Task task = getTaskById(id);
         merge(task, taskDto);
         return taskRepository.save(task);
     }
@@ -56,8 +57,8 @@ public class TaskServiceImpl implements TaskService {
 
     private Task fromDto(final TaskDto taskDto) {
         final User author = userService.getCurrentUser();
-        Long taskStatusId = taskDto.getTaskStatusId();
 
+        Long taskStatusId = taskDto.getTaskStatusId();
         final TaskStatus taskStatus = taskStatusService.getTaskStatusById(taskStatusId);
         final Long executorId = taskDto.getExecutorId();
         Task task = new Task();
@@ -67,7 +68,7 @@ public class TaskServiceImpl implements TaskService {
         }
 
         if (taskDto.getLabelIds() != null) {
-            final Set<Label> labels = new HashSet<>(labelRepository.findAllById(taskDto.getLabelIds()));
+            final List<Label> labels = labelRepository.findAllById(taskDto.getLabelIds());
             task.setLabels(labels);
         }
         task.setName(taskDto.getName());
@@ -76,13 +77,14 @@ public class TaskServiceImpl implements TaskService {
         task.setAuthor(author);
 
         return task;
+
     }
 
     private void merge(final Task task, final TaskDto taskDto) {
         final Task newTask = fromDto(taskDto);
         task.setName(newTask.getName());
-        task.setName(newTask.getName());
         task.setDescription(newTask.getDescription());
+        task.setAuthor(newTask.getAuthor());
         task.setExecutor(newTask.getExecutor());
         task.setTaskStatus(newTask.getTaskStatus());
         task.setLabels(newTask.getLabels());

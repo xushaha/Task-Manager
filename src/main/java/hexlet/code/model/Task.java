@@ -21,6 +21,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -65,10 +66,5 @@ public class Task {
     private Date createdAt;
 
     @ManyToMany
-    @JoinTable(
-            name = "tasks_labels",
-            joinColumns = @JoinColumn(name = "task_id"),
-            inverseJoinColumns = @JoinColumn(name = "label_id")
-    )
-    private Set<Label> labels;
+    private List<Label> labels;
 }

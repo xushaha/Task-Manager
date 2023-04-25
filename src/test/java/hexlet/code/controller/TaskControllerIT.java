@@ -124,7 +124,7 @@ public class TaskControllerIT {
                 "Updated description",
                 task.getTaskStatus().getId(),
                 task.getExecutor().getId(),
-                Set.of(label.getId()));
+                List.of(label.getId()));
 
         utils.perform(put(BASE_TASK_URL + ID, task.getId())
                         .content(asJson(taskDto))

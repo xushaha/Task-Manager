@@ -8,7 +8,7 @@
                    http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd
                    http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet author="xushaha (generated)" id="1682416824827-1">
+    <changeSet author="xushaha (generated)" id="1682445239386-1">
         <createTable tableName="labels">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="labelsPK"/>
@@ -17,7 +17,7 @@
             <column name="name" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="xushaha (generated)" id="1682416824827-2">
+    <changeSet author="xushaha (generated)" id="1682445239386-2">
         <createTable tableName="task_statuses">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="task_statusesPK"/>
@@ -26,7 +26,7 @@
             <column name="name" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="xushaha (generated)" id="1682416824827-3">
+    <changeSet author="xushaha (generated)" id="1682445239386-3">
         <createTable tableName="tasks">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="tasksPK"/>
@@ -39,7 +39,7 @@
             <column name="task_status_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="xushaha (generated)" id="1682416824827-4">
+    <changeSet author="xushaha (generated)" id="1682445239386-4">
         <createTable tableName="tasks_labels">
             <column name="task_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -49,7 +49,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="xushaha (generated)" id="1682416824827-5">
+    <changeSet author="xushaha (generated)" id="1682445239386-5">
         <createTable tableName="users">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="usersPK"/>
@@ -61,28 +61,28 @@
             <column name="password" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="xushaha (generated)" id="1682416824827-6">
+    <changeSet author="xushaha (generated)" id="1682445239386-6">
         <addUniqueConstraint columnNames="name" constraintName="UC_LABELSNAME_COL" tableName="labels"/>
     </changeSet>
-    <changeSet author="xushaha (generated)" id="1682416824827-7">
+    <changeSet author="xushaha (generated)" id="1682445239386-7">
         <addUniqueConstraint columnNames="name" constraintName="UC_TASK_STATUSESNAME_COL" tableName="task_statuses"/>
     </changeSet>
-    <changeSet author="xushaha (generated)" id="1682416824827-8">
+    <changeSet author="xushaha (generated)" id="1682445239386-8">
         <addUniqueConstraint columnNames="email" constraintName="UC_USERSEMAIL_COL" tableName="users"/>
     </changeSet>
-    <changeSet author="xushaha (generated)" id="1682416824827-9">
+    <changeSet author="xushaha (generated)" id="1682445239386-9">
         <addForeignKeyConstraint baseColumnNames="label_id" baseTableName="tasks_labels" constraintName="FK5eg3urx4p1n0hkcqv8x04wibn" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="labels" validate="true"/>
     </changeSet>
-    <changeSet author="xushaha (generated)" id="1682416824827-10">
+    <changeSet author="xushaha (generated)" id="1682445239386-10">
         <addForeignKeyConstraint baseColumnNames="task_status_id" baseTableName="tasks" constraintName="FK7xndk7y2uk29wdu734xyutbqe" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="task_statuses" validate="true"/>
     </changeSet>
-    <changeSet author="xushaha (generated)" id="1682416824827-11">
+    <changeSet author="xushaha (generated)" id="1682445239386-11">
         <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="tasks_labels" constraintName="FK9qrs86gyw7ctgqiwqvr9jkf0l" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="tasks" validate="true"/>
     </changeSet>
-    <changeSet author="xushaha (generated)" id="1682416824827-12">
+    <changeSet author="xushaha (generated)" id="1682445239386-12">
         <addForeignKeyConstraint baseColumnNames="executor_id" baseTableName="tasks" constraintName="FKbrg922bkqn5m7212jsqjg6ioe" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
     </changeSet>
-    <changeSet author="xushaha (generated)" id="1682416824827-13">
+    <changeSet author="xushaha (generated)" id="1682445239386-13">
         <addForeignKeyConstraint baseColumnNames="author_id" baseTableName="tasks" constraintName="FKhods8r8oyyx7tuj3c91ki2sk1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
     </changeSet>
 </databaseChangeLog>

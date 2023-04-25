@@ -1,5 +1,6 @@
 package hexlet.code.utils;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -119,12 +120,13 @@ public class TestUtils {
                 "description",
                 taskStatus.getId(),
                 user.getId(),
-                Set.of(label.getId()));
+                List.of(label.getId()));
 
         return perform(post(BASE_TASK_URL)
                 .content(asJson(taskDto))
                 .contentType(APPLICATION_JSON), TEST_EMAIL);
     }
+
 
 
     /*    public ResultActions createNewTask() throws Exception {
