@@ -3,8 +3,9 @@ package hexlet.code.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Column;
@@ -25,10 +26,11 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Entity
-@Data
 @Table(name = "users")
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -59,18 +61,12 @@ public class User {
     @Column(name = "created_at")
     private Date createdAt;
 
-    public User(final Long id) {
-        this.id = id;
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "author")
+    private List<Task> taskAuthors;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "author")
-    private List<Task> listTaskAuthor;
-
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "executor")
-    private List<Task> listTaskExecutor;
+    @OneToMany(mappedBy = "executor")
+    private List<Task> taskExecutors;
 
 }

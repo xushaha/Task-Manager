@@ -1,8 +1,9 @@
 package hexlet.code.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Column;
@@ -26,11 +27,13 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Entity
-@Data
 @Table(name = "tasks")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Task {
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -43,8 +46,7 @@ public class Task {
     @Column(name = "description")
     private String description;
 
-
-    @NotNull(message = "Task status should not be Empty")
+    @NotNull(message = "Task status cannot be Empty")
     @ManyToOne
     @JoinColumn(name = "task_status_id")
     private TaskStatus taskStatus;
@@ -69,5 +71,4 @@ public class Task {
             inverseJoinColumns = @JoinColumn(name = "label_id")
     )
     private Set<Label> labels;
-
 }

@@ -49,7 +49,7 @@ public class TaskController {
     }
 
     // GET /api/tasks - получение списка задач
-    @Operation(summary = "Get Task by filtration")
+    @Operation(summary = "Get tasks by filtration")
     @ApiResponse(responseCode = "200", description = "Tasks by filtration was successfully found")
     @GetMapping
     public Iterable<Task> getAllTasks(@QuerydslPredicate(root = Task.class) Predicate predicate) {
@@ -57,22 +57,21 @@ public class TaskController {
     }
 
     // GET /api/tasks/{id} - получение задачи по идентификатору
-    @Operation(summary = "Get task by id")
+    @Operation(summary = "Get task by ID")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Task was found"),
-        @ApiResponse(responseCode = "404", description = "Task with this id does not exist")
+        @ApiResponse(responseCode = "404", description = "Task with this ID does not exist")
     })
     @GetMapping(ID)
     public Task getTaskById(@PathVariable final Long id) {
         return taskService.getTaskById(id);
     }
 
-
     // PUT /api/tasks/{id} - обновление задачи
-    @Operation(summary = "Update task by id")
+    @Operation(summary = "Update task by ID")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Task updated"),
-        @ApiResponse(responseCode = "404", description = "Task with this id not found")
+        @ApiResponse(responseCode = "404", description = "Task with this ID not found")
     })
     @PutMapping(ID)
     @PreAuthorize(ONLY_OWNER_BY_ID)
@@ -82,14 +81,14 @@ public class TaskController {
     }
 
     // DELETE /api/tasks/{id} - удаление задачи
-    @Operation(summary = "Delete a task by id")
+    @Operation(summary = "Delete a task by ID")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Task deleted"),
-        @ApiResponse(responseCode = "404", description = "Task with that id is not found")
+        @ApiResponse(responseCode = "404", description = "Task with that ID is not found")
     })
     @DeleteMapping(ID)
     @PreAuthorize(ONLY_OWNER_BY_ID)
-    public void deleteTask(@PathVariable("id") final long id) {
+    public void deleteTask(@PathVariable("id") final Long id) {
         taskService.deleteTaskById(id);
     }
 }

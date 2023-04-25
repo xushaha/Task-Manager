@@ -107,8 +107,10 @@ public class TestUtils {
 
     public ResultActions createTask() throws Exception {
         User user = userRepository.findAll().get(0);
+
         createLabel("new label");
         Label label = labelRepository.findAll().get(0);
+
         createTaskStatus("new task status");
         TaskStatus taskStatus = taskStatusRepository.findAll().get(0);
 
@@ -123,6 +125,26 @@ public class TestUtils {
                 .content(asJson(taskDto))
                 .contentType(APPLICATION_JSON), TEST_EMAIL);
     }
+
+
+    /*    public ResultActions createNewTask() throws Exception {
+        User user = userRepository.findAll().get(0);
+        createNewLabel();
+        Label label = labelRepository.findAll().get(0);
+        createNewTaskStatus();
+        TaskStatus taskStatus = taskStatusRepository.findAll().get(0);
+
+        TaskDto taskDto = new TaskDto("Task",
+                "description",
+                user.getId(),
+                taskStatus.getId(),
+                List.of(label.getId()));
+
+        return perform(post(BASE_TASK_URL)
+                .content(asJson(taskDto))
+                .contentType(APPLICATION_JSON), user.getEmail());
+    }
+*/
 
     public ResultActions perform(final MockHttpServletRequestBuilder request, final String byUser) throws Exception {
         final String token = jwtHelper.expiring(Map.of("username", byUser));

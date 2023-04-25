@@ -45,4 +45,5 @@ public class TaskStatus {
     @JsonIgnore
     @OneToMany(mappedBy = "taskStatus")
     private Set<Task> tasks;
+
 }
