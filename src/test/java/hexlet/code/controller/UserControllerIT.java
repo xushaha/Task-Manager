@@ -175,7 +175,6 @@ public class UserControllerIT {
 
     @Test
     public void deleteUser() throws Exception {
-
         utils.regDefaultUser();
         final Long userId = userRepository.findByEmail(TestUtils.TEST_EMAIL).get().getId();
         utils.perform(delete(BASE_USER_URL + ID, userId), TestUtils.TEST_EMAIL)
@@ -186,7 +185,6 @@ public class UserControllerIT {
 
     @Test
     public void deleteUserFails() throws Exception {
-
         utils.regDefaultUser();
         utils.regUser(new UserDto(
                 TestUtils.TEST_EMAIL_2,
@@ -203,6 +201,4 @@ public class UserControllerIT {
         assertEquals(2, userRepository.count());
 
     }
-
-
 }

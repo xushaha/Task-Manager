@@ -1,10 +1,5 @@
 package hexlet.code.utils;
 
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -98,40 +93,41 @@ public class TestUtils {
         final var request = post(BASE_USER_URL)
                 .content(asJson(dto))
                 .contentType(APPLICATION_JSON);
-
         return perform(request);
     }
 
-    public ResultActions createNewTaskStatus() throws Exception {
-        TaskStatusDto taskStatusDto = new TaskStatusDto("new status");
-        User user = userRepository.findAll().get(0);
+    public ResultActions createTaskStatus(String name) throws Exception {
+        TaskStatusDto taskStatusDto = new TaskStatusDto(name);
         return perform(post(BASE_STATUS_URL)
                 .content(asJson(taskStatusDto))
-                .contentType(APPLICATION_JSON), user.getEmail());
+                .contentType(APPLICATION_JSON), TEST_EMAIL);
     }
-    public ResultActions createNewLabel() throws Exception {
+
+    public ResultActions createLabel() throws Exception {
         LabelDto labelDto = new LabelDto("new label");
-        User user = userRepository.findAll().get(0);
+        //User user = userRepository.findAll().get(0);
         return perform(post(BASE_LABEL_URL)
                 .content(asJson(labelDto))
-                .contentType(APPLICATION_JSON), user.getEmail());
+                .contentType(APPLICATION_JSON), TEST_EMAIL);
     }
-    public ResultActions createNewTask() throws Exception {
+
+    public ResultActions createTask() throws Exception {
         User user = userRepository.findAll().get(0);
-        createNewLabel();
+        createLabel();
         Label label = labelRepository.findAll().get(0);
-        createNewTaskStatus();
+        createTaskStatus("new task status");
         TaskStatus taskStatus = taskStatusRepository.findAll().get(0);
 
-        TaskDto taskDto = new TaskDto("Task",
+        TaskDto taskDto = new TaskDto(
+                "Task",
                 "description",
-                user.getId(),
                 taskStatus.getId(),
+                user.getId(),
                 Set.of(label.getId()));
 
         return perform(post(BASE_TASK_URL)
                 .content(asJson(taskDto))
-                .contentType(APPLICATION_JSON), user.getEmail());
+                .contentType(APPLICATION_JSON), TEST_EMAIL);
     }
 
     public ResultActions perform(final MockHttpServletRequestBuilder request, final String byUser) throws Exception {

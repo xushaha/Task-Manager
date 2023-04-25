@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.TemporalType.TIMESTAMP;
@@ -42,6 +42,6 @@ public class Label {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "labels")
-    private List<Task> tasks;
+    private Set<Task> tasks;
 
 }

@@ -33,7 +33,6 @@ import static org.springframework.http.HttpStatus.CREATED;
 public class TaskController {
 
     private final TaskService taskService;
-
     public static final String TASK_CONTROLLER_PATH = "/tasks";
     public static final String ID = "/{id}";
     private static final String ONLY_OWNER_BY_ID = """

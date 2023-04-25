@@ -13,7 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotBlank;
+import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.TemporalType.TIMESTAMP;
@@ -39,7 +42,7 @@ public class TaskStatus {
     @Column(name = "created_at")
     private Date createdAt;
 
-    public TaskStatus(Long id) {
-        this.id = id;
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "taskStatus")
+    private Set<Task> tasks;
 }
