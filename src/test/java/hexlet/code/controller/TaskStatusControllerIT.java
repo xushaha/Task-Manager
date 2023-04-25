@@ -67,7 +67,6 @@ public class TaskStatusControllerIT {
 
     @Test
     public void twiceCreateTaskStatusFail() throws Exception {
-        utils.regDefaultUser();
         utils.createTaskStatus("new task status").andExpect(status().isCreated());
         utils.createTaskStatus("new task status").andExpect(status().isUnprocessableEntity());
         assertEquals(1, taskStatusRepository.count());
@@ -105,7 +104,7 @@ public class TaskStatusControllerIT {
 
         final List<TaskStatus> taskStatuses = utils.fromJson(response
                 .getContentAsString(), new TypeReference<>() {
-        });
+                });
 
         assertThat(taskStatuses).hasSize(2);
     }

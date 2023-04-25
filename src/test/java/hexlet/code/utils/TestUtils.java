@@ -61,8 +61,6 @@ public class TestUtils {
     @Autowired
     private JWTHelper jwtHelper;
 
-
-
     private final UserDto testRegistrationDto = new UserDto(
             TEST_EMAIL,
             "first name",
@@ -81,9 +79,6 @@ public class TestUtils {
         labelRepository.deleteAll();
     }
 
-    public User getUserByEmail(final String email) {
-        return userRepository.findByEmail(email).get();
-    }
 
     public ResultActions regDefaultUser() throws Exception {
         return regUser(testRegistrationDto);
@@ -103,9 +98,8 @@ public class TestUtils {
                 .contentType(APPLICATION_JSON), TEST_EMAIL);
     }
 
-    public ResultActions createLabel() throws Exception {
-        LabelDto labelDto = new LabelDto("new label");
-        //User user = userRepository.findAll().get(0);
+    public ResultActions createLabel(String name) throws Exception {
+        LabelDto labelDto = new LabelDto(name);
         return perform(post(BASE_LABEL_URL)
                 .content(asJson(labelDto))
                 .contentType(APPLICATION_JSON), TEST_EMAIL);
@@ -113,7 +107,7 @@ public class TestUtils {
 
     public ResultActions createTask() throws Exception {
         User user = userRepository.findAll().get(0);
-        createLabel();
+        createLabel("new label");
         Label label = labelRepository.findAll().get(0);
         createTaskStatus("new task status");
         TaskStatus taskStatus = taskStatusRepository.findAll().get(0);
