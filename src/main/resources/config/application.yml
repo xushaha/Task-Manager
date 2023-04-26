@@ -17,7 +17,6 @@ spring:
       filter:
         enabled: true
 
-spring.jpa.open-in-view: false
 
 springdoc:
   api-docs:

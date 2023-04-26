@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -20,7 +21,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.TemporalType.TIMESTAMP;
@@ -45,18 +46,18 @@ public class Task {
     @Column(name = "description")
     private String description;
 
-    @NotNull(message = "Task status cannot be Empty")
     @ManyToOne
-    @JoinColumn(name = "task_status_id")
+    @JoinColumn(name = "task_status_id", referencedColumnName = "id")
+    @NotNull(message = "Task status cannot be Empty")
     private TaskStatus taskStatus;
 
-    @NotNull
     @ManyToOne
-    @JoinColumn(name = "author_id")
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    @NotNull(message = "Author should not be empty")
     private User author;
 
     @ManyToOne
-    @JoinColumn(name = "executor_id")
+    @JoinColumn(name = "executor_id", referencedColumnName = "id")
     private User executor;
 
     @CreationTimestamp
@@ -64,5 +65,10 @@ public class Task {
     private Date createdAt;
 
     @ManyToMany
-    private List<Label> labels;
+    @JoinTable(
+            name = "tasks_labels",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "label_id")
+    )
+    private Set<Label> labels;
 }

@@ -9,7 +9,6 @@ public interface LabelService {
 
     List<Label> getAllLabels();
 
-    // POST /api/labels - создание новой метки
     Label createNewLabel(LabelDto labelDto);
 
     Label getLabelById(Long id);
@@ -17,6 +16,5 @@ public interface LabelService {
     Label updateLabel(Long id, LabelDto labelDto);
 
     void deleteLabelById(Long id);
-
 
 }

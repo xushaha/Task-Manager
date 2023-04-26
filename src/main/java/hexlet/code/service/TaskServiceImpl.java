@@ -12,8 +12,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 
 @Service
@@ -26,10 +27,12 @@ public class TaskServiceImpl implements TaskService {
     private final TaskStatusService taskStatusService;
     private final LabelRepository labelRepository;
 
+
     @Override
-    public Task createNewTask(TaskDto taskDto) {
-        Task newTask = fromDto(taskDto);
-        return taskRepository.save(newTask);
+    public Task createNewTask(TaskDto taskDTO) {
+        Task task = new Task();
+        fromDto(taskDTO, task);
+        return taskRepository.save(task);
     }
 
 
@@ -45,8 +48,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task updateTask(Long id, TaskDto taskDto) {
-        final Task task = getTaskById(id);
-        merge(task, taskDto);
+        Task task = getTaskById(id);
+        fromDto(taskDto, task);
         return taskRepository.save(task);
     }
 
@@ -55,38 +58,21 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.deleteById(id);
     }
 
-    private Task fromDto(final TaskDto taskDto) {
+    private void fromDto(TaskDto taskDTO, Task task) {
         final User author = userService.getCurrentUser();
-
-        Long taskStatusId = taskDto.getTaskStatusId();
-        final TaskStatus taskStatus = taskStatusService.getTaskStatusById(taskStatusId);
-        final Long executorId = taskDto.getExecutorId();
-        Task task = new Task();
-
+        final TaskStatus taskStatus = taskStatusService.getTaskStatusById(taskDTO.getTaskStatusId());
+        final Long executorId = taskDTO.getExecutorId();
         if (executorId != null) {
             task.setExecutor(userService.getUserById(executorId));
         }
-
-        if (taskDto.getLabelIds() != null) {
-            final List<Label> labels = labelRepository.findAllById(taskDto.getLabelIds());
+        if (taskDTO.getLabelIds() != null) {
+            final Set<Label> labels = new HashSet<>(labelRepository.findAllById(taskDTO.getLabelIds()));
             task.setLabels(labels);
         }
-
-        task.setName(taskDto.getName());
-        task.setDescription(taskDto.getDescription());
-        task.setTaskStatus(taskStatus);
+        task.setName(taskDTO.getName());
+        task.setDescription(taskDTO.getDescription());
         task.setAuthor(author);
-
-        return task;
+        task.setTaskStatus(taskStatus);
     }
 
-    private void merge(final Task task, final TaskDto taskDto) {
-        final Task newTask = fromDto(taskDto);
-        task.setName(newTask.getName());
-        task.setDescription(newTask.getDescription());
-        task.setAuthor(newTask.getAuthor());
-        task.setExecutor(newTask.getExecutor());
-        task.setTaskStatus(newTask.getTaskStatus());
-        task.setLabels(newTask.getLabels());
-    }
 }

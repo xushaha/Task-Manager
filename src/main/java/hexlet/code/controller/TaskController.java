@@ -29,9 +29,9 @@ import static hexlet.code.controller.TaskController.TASK_CONTROLLER_PATH;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @Tag(name = "Task controller")
-@AllArgsConstructor
 @RestController
 @RequestMapping("${base-url}" + TASK_CONTROLLER_PATH)
+@AllArgsConstructor
 public class TaskController {
 
     private final TaskService taskService;

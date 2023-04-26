@@ -48,4 +48,3 @@ public class TaskStatusServiceImpl implements TaskStatusService {
         taskStatusRepository.deleteById(id);
     }
 }
-

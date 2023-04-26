@@ -19,7 +19,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
-import java.util.Set;
 
 import static hexlet.code.utils.TestUtils.BASE_TASK_URL;
 import static hexlet.code.utils.TestUtils.ID;
@@ -69,7 +68,7 @@ public class TaskControllerIT {
 
 
     @Test
-    public void testGetLabelById() throws Exception {
+    public void testGetTaskById() throws Exception {
         utils.createTask().andExpect(status().isCreated());
         assertThat(taskRepository.count()).isEqualTo(1);
         final Task expectedTask = taskRepository.findAll().get(0);
@@ -94,7 +93,7 @@ public class TaskControllerIT {
 
 
     @Test
-    public void testGetAllLabels() throws Exception {
+    public void testGetAllTasks() throws Exception {
         utils.createTask().andExpect(status().isCreated());
         assertThat(taskRepository.count()).isEqualTo(1);
 

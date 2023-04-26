@@ -2,7 +2,6 @@ package hexlet.code.utils;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -74,10 +73,10 @@ public class TestUtils {
     }
 
     public void clearDataBase() {
-        userRepository.deleteAll();
-        taskStatusRepository.deleteAll();
         taskRepository.deleteAll();
+        taskStatusRepository.deleteAll();
         labelRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
 
