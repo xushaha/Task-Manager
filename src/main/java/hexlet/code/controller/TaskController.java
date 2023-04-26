@@ -5,6 +5,8 @@ import hexlet.code.dto.TaskDto;
 import hexlet.code.model.Task;
 import hexlet.code.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,7 +46,9 @@ public class TaskController {
     @ApiResponse(responseCode = "201", description = "Task created")
     @PostMapping
     @ResponseStatus(CREATED)
-    public Task createTask(@RequestBody @Valid final TaskDto taskDto) {
+    public Task createTask(
+            @Parameter(schema = @Schema(implementation = TaskDto.class))
+            @RequestBody @Valid final TaskDto taskDto) {
         return taskService.createNewTask(taskDto);
     }
 

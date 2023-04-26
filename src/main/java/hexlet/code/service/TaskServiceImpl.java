@@ -12,8 +12,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 
 @Service
 @Transactional
@@ -22,13 +23,12 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final UserService userService;
-    private final UserService labelService;
     private final TaskStatusService taskStatusService;
     private final LabelRepository labelRepository;
 
     @Override
     public Task createNewTask(TaskDto taskDto) {
-        final Task newTask = fromDto(taskDto);
+        Task newTask = fromDto(taskDto);
         return taskRepository.save(newTask);
     }
 
@@ -71,13 +71,13 @@ public class TaskServiceImpl implements TaskService {
             final List<Label> labels = labelRepository.findAllById(taskDto.getLabelIds());
             task.setLabels(labels);
         }
+
         task.setName(taskDto.getName());
         task.setDescription(taskDto.getDescription());
         task.setTaskStatus(taskStatus);
         task.setAuthor(author);
 
         return task;
-
     }
 
     private void merge(final Task task, final TaskDto taskDto) {
