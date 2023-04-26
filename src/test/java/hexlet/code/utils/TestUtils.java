@@ -33,10 +33,8 @@ import static hexlet.code.controller.TaskStatusController.TASK_STATUS_CONTROLLER
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
-
 @Component
 public class TestUtils {
-
     public static final String ID = "/{id}";
     public static final String BASE_URL = "/api";
     public static final String BASE_USER_URL = BASE_URL + USER_CONTROLLER_PATH;
@@ -46,7 +44,6 @@ public class TestUtils {
     public static final String TEST_EMAIL = "email@email.com";
     public static final String TEST_EMAIL_2 = "email2@email.com";
     private static final ObjectMapper MAPPER = new ObjectMapper().findAndRegisterModules();
-
 
     @Autowired
     private MockMvc mockMvc;
@@ -74,11 +71,14 @@ public class TestUtils {
 
     public void clearDataBase() {
         taskRepository.deleteAll();
-        taskStatusRepository.deleteAll();
         labelRepository.deleteAll();
+        taskStatusRepository.deleteAll();
         userRepository.deleteAll();
     }
 
+    public User getUserByEmail(final String email) {
+        return userRepository.findByEmail(email).get();
+    }
 
     public ResultActions regDefaultUser() throws Exception {
         return regUser(testRegistrationDto);
@@ -108,11 +108,11 @@ public class TestUtils {
     public ResultActions createTask() throws Exception {
         User user = userRepository.findAll().get(0);
 
-        createLabel("new label");
-        Label label = labelRepository.findAll().get(0);
-
         createTaskStatus("new task status");
         TaskStatus taskStatus = taskStatusRepository.findAll().get(0);
+
+        createLabel("new label");
+        Label label = labelRepository.findAll().get(0);
 
         TaskDto taskDto = new TaskDto(
                 "Task",
@@ -145,4 +145,3 @@ public class TestUtils {
     }
 
 }
-

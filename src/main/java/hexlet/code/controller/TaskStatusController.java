@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,9 +37,6 @@ public class TaskStatusController {
 
     public static final String TASK_STATUS_CONTROLLER_PATH = "/statuses";
     public static final String ID = "/{id}";
-    private static final String ONLY_OWNER_BY_ID = """
-                @userRepository.findById(#id).get().getEmail() == authentication.getName()
-            """;
 
     // POST /api/statuses - создание нового статуса
     @Operation(summary = "Create new task status")
@@ -81,7 +77,6 @@ public class TaskStatusController {
         @ApiResponse(responseCode = "404", description = "Task status with the id not found")
     })
     @PutMapping(ID)
-    @PreAuthorize(ONLY_OWNER_BY_ID)
     public TaskStatus updateTaskStatus(@PathVariable("id") final Long id,
                                        @RequestBody @Valid final TaskStatusDto taskStatusDto) {
         return taskStatusService.updateTaskStatus(id, taskStatusDto);
@@ -96,7 +91,6 @@ public class TaskStatusController {
         @ApiResponse(responseCode = "404", description = "Task status with that id is not found")
     })
     @DeleteMapping(ID)
-    @PreAuthorize(ONLY_OWNER_BY_ID)
     public void deleteTaskStatus(@PathVariable("id") final long id) {
         taskStatusService.deleteTaskStatusById(id);
     }

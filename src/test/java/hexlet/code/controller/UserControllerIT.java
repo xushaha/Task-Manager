@@ -50,10 +50,12 @@ public class UserControllerIT {
     @Autowired
     private TestUtils utils;
 
+
     @AfterEach
     public void clear() {
         utils.clearDataBase();
     }
+
 
     @Test
     public void registration() throws Exception {
@@ -104,17 +106,6 @@ public class UserControllerIT {
 
         assertThat(users).hasSize(2);
     }
-
-
-
-/*    @Test
-    public void getUserByIdFails() throws Exception {
-        utils.regDefaultUser();
-        final User expectedUser = userRepository.findAll().get(0);
-        utils.perform(get(BASE_USER_URL + ID, expectedUser.getId()))
-                .andExpect(status().isUnauthorized());
-    }*/
-
 
 
 

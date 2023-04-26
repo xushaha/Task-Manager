@@ -37,9 +37,9 @@ public class TaskController {
     private final TaskService taskService;
     public static final String TASK_CONTROLLER_PATH = "/tasks";
     public static final String ID = "/{id}";
-    private static final String ONLY_OWNER_BY_ID = """
-                @userRepository.findById(#id).get().getEmail() == authentication.getName()
-            """;
+
+    private static final String ONLY_OWNER_BY_ID =
+            "@taskRepository.findById(#id).get().getAuthor().getEmail() == authentication.getName()";
 
     // POST /api/tasks - создание новой задачи
     @Operation(summary = "Create new task")
@@ -90,9 +90,10 @@ public class TaskController {
         @ApiResponse(responseCode = "200", description = "Task deleted"),
         @ApiResponse(responseCode = "404", description = "Task with that ID is not found")
     })
-    @DeleteMapping(ID)
     @PreAuthorize(ONLY_OWNER_BY_ID)
+    @DeleteMapping(ID)
     public void deleteTask(@PathVariable("id") final Long id) {
         taskService.deleteTaskById(id);
     }
+
 }

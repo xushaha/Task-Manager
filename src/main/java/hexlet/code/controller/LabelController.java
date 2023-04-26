@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,9 +34,6 @@ import static org.springframework.http.HttpStatus.CREATED;
 public class LabelController {
     public static final String LABEL_CONTROLLER_PATH = "/labels";
     public static final String ID = "/{id}";
-    private static final String ONLY_OWNER_BY_ID = """
-                @userRepository.findById(#id).get().getEmail() == authentication.getName()
-            """;
 
     private final LabelService labelService;
 
@@ -79,7 +75,6 @@ public class LabelController {
         @ApiResponse(responseCode = "404", description = "Task with this id not found")
     })
     @PutMapping(ID)
-    @PreAuthorize(ONLY_OWNER_BY_ID)
     public Label updateLabel(@PathVariable("id") final Long id,
                              @RequestBody @Valid final LabelDto labelDto) {
         return labelService.updateLabel(id, labelDto);
@@ -92,8 +87,7 @@ public class LabelController {
         @ApiResponse(responseCode = "404", description = "Label with that id is not found")
     })
     @DeleteMapping(ID)
-    @PreAuthorize(ONLY_OWNER_BY_ID)
-    public void deleteLabel(@PathVariable("id") final long id) {
+    public void deleteLabel(@PathVariable("id") final Long id) {
         labelService.deleteLabelById(id);
     }
 

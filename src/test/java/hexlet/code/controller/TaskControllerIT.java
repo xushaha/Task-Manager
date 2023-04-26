@@ -138,7 +138,7 @@ public class TaskControllerIT {
 
 
     @Test
-    public void deleteTask() throws Exception {
+    public void testDeleteTask() throws Exception {
         utils.createTask().andExpect(status().isCreated());
         assertThat(taskRepository.count()).isEqualTo(1);
 
@@ -152,7 +152,7 @@ public class TaskControllerIT {
 
 
     @Test
-    public void deleteTaskFails() throws Exception {
+    public void testDeleteTaskFails() throws Exception {
         utils.createTask().andExpect(status().isCreated());
         assertThat(taskRepository.count()).isEqualTo(1);
 
@@ -162,7 +162,7 @@ public class TaskControllerIT {
         utils.perform(request, TEST_EMAIL)
                 .andExpect(status().isNotFound());
 
-        assertEquals(1, labelRepository.count());
+        assertEquals(1, taskRepository.count());
     }
 
 }

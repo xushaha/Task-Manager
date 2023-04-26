@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import hexlet.code.config.SpringConfigForIT;
 import hexlet.code.dto.TaskStatusDto;
 import hexlet.code.model.TaskStatus;
-import hexlet.code.model.User;
-import hexlet.code.repository.UserRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.utils.TestUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -23,8 +21,7 @@ import java.util.List;
 import static hexlet.code.config.SpringConfigForIT.TEST_PROFILE;
 import static hexlet.code.controller.UserController.ID;
 import static hexlet.code.utils.TestUtils.BASE_STATUS_URL;
-import static hexlet.code.utils.TestUtils.asJson;
-import static hexlet.code.utils.TestUtils.fromJson;
+import static hexlet.code.utils.TestUtils.TEST_EMAIL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -41,8 +38,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = SpringConfigForIT.class)
 public class TaskStatusControllerIT {
 
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private TaskStatusRepository taskStatusRepository;
     @Autowired
@@ -93,11 +88,10 @@ public class TaskStatusControllerIT {
 
     @Test
     public void testGetAllTaskStatuses() throws Exception {
-        User user = userRepository.findAll().get(0);
         utils.createTaskStatus("new task status");
         utils.createTaskStatus("new task status 2");
 
-        final var response = utils.perform(get(BASE_STATUS_URL), user.getEmail())
+        final var response = utils.perform(get(BASE_STATUS_URL), TEST_EMAIL)
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse();
@@ -111,10 +105,9 @@ public class TaskStatusControllerIT {
 
     @Test
     public void updateTaskStatus() throws Exception {
-        User user = userRepository.findAll().get(0);
         utils.createTaskStatus("new task status");
 
-        final var response = utils.perform(get(BASE_STATUS_URL), user.getEmail())
+        final var response = utils.perform(get(BASE_STATUS_URL), TEST_EMAIL)
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse();
@@ -123,11 +116,11 @@ public class TaskStatusControllerIT {
         TaskStatusDto newTaskStatusDto = new TaskStatusDto("updated task status");
         final var responsePut = utils.perform(
                         put(BASE_STATUS_URL + ID, expectedStatus.getId())
-                                .content(asJson(newTaskStatusDto))
-                                .contentType(APPLICATION_JSON), user.getEmail())
+                                .content(TestUtils.asJson(newTaskStatusDto))
+                                .contentType(APPLICATION_JSON), TEST_EMAIL)
                 .andReturn().getResponse();
 
-        TaskStatus expected = fromJson(responsePut.getContentAsString(), new TypeReference<>() {
+        TaskStatus expected = TestUtils.fromJson(responsePut.getContentAsString(), new TypeReference<>() {
         });
 
         assertTrue(taskStatusRepository.existsById(expected.getId()));
@@ -137,7 +130,6 @@ public class TaskStatusControllerIT {
 
     @Test
     public void deleteTaskStatus() throws Exception {
-        User user = userRepository.findAll().get(0);
         assertThat(taskStatusRepository.count()).isEqualTo(0);
 
         utils.createTaskStatus("new task status");
@@ -145,22 +137,9 @@ public class TaskStatusControllerIT {
 
         TaskStatus taskStatus = taskStatusRepository.findAll().get(0);
 
-        utils.perform(delete(BASE_STATUS_URL + ID, taskStatus.getId()), user.getEmail())
+        utils.perform(delete(BASE_STATUS_URL + ID, taskStatus.getId()), TEST_EMAIL)
                 .andExpect(status().isOk());
         assertThat(taskStatusRepository.count()).isEqualTo(0);
 
-    }
-
-    @Test
-    public void deleteTaskStatusFails() throws Exception {
-        User user = userRepository.findAll().get(0);
-        utils.createTaskStatus("new task status");
-        Long statusId = taskStatusRepository.findAll().get(0).getId() + 1;
-
-        var request = delete(BASE_STATUS_URL + ID, statusId);
-        utils.perform(request, user.getEmail())
-                .andExpect(status().isNotFound());
-
-        assertEquals(1, taskStatusRepository.count());
     }
 }

@@ -42,7 +42,6 @@ public class TaskStatusServiceImpl implements TaskStatusService {
         return taskStatusRepository.save(taskStatusToUpdate);
     }
 
-
     @Override
     public void deleteTaskStatusById(Long id) {
         taskStatusRepository.deleteById(id);

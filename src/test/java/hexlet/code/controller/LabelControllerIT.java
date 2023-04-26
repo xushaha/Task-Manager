@@ -63,10 +63,17 @@ public class LabelControllerIT {
     }
 
     @Test
-    public void twiceCreateLabelFail() throws Exception {
+    public void twiceCreateLabelFails() throws Exception {
         utils.createLabel("new label").andExpect(status().isCreated());
         utils.createLabel("new label").andExpect(status().isUnprocessableEntity());
         assertEquals(1, labelRepository.count());
+    }
+
+    @Test
+    public void testCreateEmptyLabelFails() throws Exception {
+        assertEquals(0, labelRepository.count());
+        utils.createLabel("");
+        assertEquals(0, labelRepository.count());
     }
 
     @Test
@@ -86,6 +93,19 @@ public class LabelControllerIT {
 
         assertEquals(expectedLabel.getId(), label.getId());
         assertEquals(expectedLabel.getName(), label.getName());
+    }
+
+    @Test
+    public void testGetLabelByIdFails() throws Exception {
+        utils.createLabel("new label").andExpect(status().isCreated());
+        assertThat(labelRepository.count()).isEqualTo(1);
+        Long labelId = labelRepository.findAll().get(0).getId() + 1;
+
+        var request = get(BASE_LABEL_URL + TestUtils.ID, labelId);
+        utils.perform(request, TEST_EMAIL)
+                .andExpect(status().isNotFound());
+
+        assertEquals(1, labelRepository.count());
     }
 
     @Test
@@ -109,34 +129,27 @@ public class LabelControllerIT {
     @Test
     public void updateLabel() throws Exception {
         utils.createLabel("new label");
-
-        final var response = utils.perform(get(BASE_LABEL_URL), TEST_EMAIL)
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
-
         final Label expectedLabel = labelRepository.findAll().get(0);
         LabelDto newLabelDto = new LabelDto("updated label");
+
         final var responsePut = utils.perform(
                         put(BASE_LABEL_URL + ID, expectedLabel.getId())
                                 .content(asJson(newLabelDto))
                                 .contentType(APPLICATION_JSON), TEST_EMAIL)
-                .andReturn().getResponse();
+                .andExpect(status().isOk())
+                .andReturn().
+                getResponse();
 
-        Label expected = fromJson(responsePut.getContentAsString(), new TypeReference<>() {
+        Label updatedLabel = fromJson(responsePut.getContentAsString(), new TypeReference<>() {
         });
 
-        assertTrue(labelRepository.existsById(expected.getId()));
-        assertThat(expected.getName()).isEqualTo("updated label");
+        assertTrue(labelRepository.existsById(updatedLabel.getId()));
+        assertThat(updatedLabel.getName()).isEqualTo("updated label");
 
     }
 
-
-
     @Test
     public void deleteLabel() throws Exception {
-        utils.clearDataBase();
-        utils.regDefaultUser();
         assertThat(labelRepository.count()).isEqualTo(0);
         utils.createLabel("new label");
         assertThat(labelRepository.count()).isEqualTo(1);
@@ -149,16 +162,17 @@ public class LabelControllerIT {
 
     }
 
-
     @Test
-    public void deleteLabelFails() throws Exception {
-        utils.createLabel("new label");
+    public void testDeleteLabelFails() throws Exception {
+        utils.createLabel("new label").andExpect(status().isCreated());
+        assertThat(labelRepository.count()).isEqualTo(1);
+
         Long labelId = labelRepository.findAll().get(0).getId() + 1;
 
-        var request = delete(BASE_LABEL_URL + ID, labelId);
-        utils.perform(request, TEST_EMAIL)
+        utils.perform(delete(BASE_LABEL_URL + ID, labelId), TEST_EMAIL)
                 .andExpect(status().isNotFound());
 
         assertEquals(1, labelRepository.count());
     }
+
 }
