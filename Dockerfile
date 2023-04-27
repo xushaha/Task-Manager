@@ -2,9 +2,8 @@ FROM gradle:7.4.0-jdk17
 
 WORKDIR /app
 
-COPY /app .
+COPY / .
 
-RUN gradle assembleFrontend
 RUN gradle installDist
 
 CMD ./build/install/app/bin/app
