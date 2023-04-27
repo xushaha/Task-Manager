@@ -43,13 +43,14 @@ public class UserController {
             """;
 
     // POST /api/users создание пользователя
-    @Operation(summary = "Create new user")
+    @Operation(summary = "Create a new user")
     @ApiResponse(responseCode = "201", description = "User created")
-    @PostMapping
     @ResponseStatus(CREATED)
-    public User createUser(@RequestBody @Valid final UserDto userDto) {
+    @PostMapping
+    public User createUser(@RequestBody @Valid UserDto userDto) {
         return userService.createNewUser(userDto);
     }
+
 
     // GET /api/users получение списка пользователей
     @Operation(summary = "Get list of users")

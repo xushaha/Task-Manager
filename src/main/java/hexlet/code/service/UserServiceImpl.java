@@ -25,16 +25,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public User createNewUser(final UserDto userDto) {
+    public User createNewUser(UserDto userDto) {
 
-        final User user = new User();
+        User newUser = new User();
 
-        user.setEmail(userDto.getEmail());
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        newUser.setEmail(userDto.getEmail());
+        newUser.setFirstName(userDto.getFirstName());
+        newUser.setLastName(userDto.getLastName());
+        newUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        return userRepository.save(user);
+        return userRepository.save(newUser);
     }
 
     @Override
