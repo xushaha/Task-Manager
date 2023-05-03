@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -60,11 +61,14 @@ public class User {
     private Date createdAt;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "author")
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "author")
     private List<Task> taskAuthors;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "executor")
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "executor")
     private List<Task> taskExecutors;
+
 
 }

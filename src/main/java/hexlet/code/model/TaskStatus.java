@@ -8,12 +8,14 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotBlank;
-import javax.persistence.OneToMany;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
 import java.util.Set;
@@ -43,7 +45,8 @@ public class TaskStatus {
     private Date createdAt;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "taskStatus")
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "taskStatus")
     private Set<Task> tasks;
 
 }
