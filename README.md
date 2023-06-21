@@ -12,8 +12,8 @@ Task Manager – система управления задачами. Она п
 
 Использованные технологии:  
 Java 17  
-Spring Boot
-Swagger, Lombok
-Gradle
-Liquibase, H2, PostgreSQL
+Spring Boot  
+Swagger, Lombok  
+Gradle  
+Liquibase, H2, PostgreSQL  
 Spring Security, JWT
